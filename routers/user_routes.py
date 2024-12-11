@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from crud.user_crud import user_crud
 from schemas.user_schemas import UpdateUser, WriteUser
 

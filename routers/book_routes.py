@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from crud.book_crud import book_crud
 from schemas.book_schemas import UpdateBook, WriteBook
 

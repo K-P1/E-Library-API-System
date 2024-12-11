@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from crud.record_crud import record_crud
 from datetime import date as dt_date
 from typing import Optional

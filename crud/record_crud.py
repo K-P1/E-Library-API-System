@@ -1,5 +1,12 @@
-from schemas.record_schemas import ReadRecord, UpdateRecord, records, add_record
+from schemas.record_schemas import ReadRecord, UpdateRecord, records
 from fastapi import HTTPException
+from datetime import date as dt_date
+
+def add_record(user_id: str, book_id: str):
+    new_id = f"rc_{str(len(records) + 1).zfill(4)}"
+    record = ReadRecord(id=new_id, user_id=user_id, book_id=book_id, borrowed_at=dt_date.today())
+    records[new_id] = record
+    return record
 
 class RecordCrud:
     @staticmethod

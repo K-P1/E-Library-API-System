@@ -159,11 +159,3 @@ To ensure all functionality works as expected, run the automated test suite:
 ```bash
 pytest
 ```
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
----
-
-**Enjoy building your E-Library API!**
