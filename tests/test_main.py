@@ -1,12 +1,11 @@
 from fastapi.testclient import TestClient
 from main import app
-from services import fake_data
+from datetime import date as dt_date
 
-fake_data.generate_initial_data()
 
 client = TestClient(app)
 
-
+ 
 # User Tests
 def test_create_user():
     user_data = {"name": "Test User", "email": "testuser@example.com", "is_active": True}
@@ -16,18 +15,40 @@ def test_create_user():
 
 def test_get_user():
     user_id = "us_1001"
-    response = client.get(f"/user/get/{user_id}")
+    response = client.get(f"/user/{user_id}")
     assert response.status_code in [200, 404]
     if response.status_code == 200:
         assert response.json()["id"] == user_id
 
-def test_update_user():
+def test_get_all_users():
+    response = client.get("/user/get/all")
+    assert response.status_code == 200
+    assert len(response.json()) > 0
+
+def test_partial_update_user():
     user_id = "us_1002"
     update_data = {"name": "Updated User"}
     response = client.patch(f"/user/update/{user_id}", json=update_data)
     assert response.status_code in [200, 404, 500]
     if response.status_code == 200:
         assert response.json()["name"] == "Updated User"
+
+def test_full_update_user():
+    user_id = "us_1001"
+    update_data = {"name": "Updated User", "email": "updateduser@example.com", "is_active": False}
+    response = client.put(f"/user/update/{user_id}", json=update_data)
+    assert response.status_code in [200, 404, 500]
+    if response.status_code == 200:
+        assert response.json()["name"] == "Updated User"
+        assert response.json()["email"] == "updateduser@example.com"
+        assert response.json()["is_active"] == False
+
+def test_deactivate_user():
+    user_id = "us_1002"
+    response = client.patch(f"/user/deactivate/{user_id}")
+    assert response.status_code in [200, 404]
+    if response.status_code == 200:
+        assert response.json()["is_active"] == False
 
 def test_delete_user():
     user_id = "us_1003"
@@ -65,9 +86,14 @@ def test_delete_book():
 
 # Record Tests
 def test_create_record():
-    record_data = {"user_id": "us_1001", "book_id": "bk_1001"}
+    record_data = {
+        "user_id": "us_1001", 
+        "book_id": "bk_1001", 
+        "borrowed_at": str(dt_date.today())}
     response = client.post("/record/create", json=record_data)
     assert response.status_code == 201
+    assert response.json()["user_id"] == "us_1001"
+    assert response.json()["book_id"] == "bk_1001"
 
 def test_get_record():
     record_id = "rc_1001"

@@ -1,17 +1,21 @@
-from schemas.record_schemas import ReadRecord, UpdateRecord, records
+from schemas.record_schemas import ReadBorrowRecord, UpdateBorrowRecord, WriteBorrowRecord, records
 from fastapi import HTTPException
 from datetime import date as dt_date
 
-def add_record(user_id: str, book_id: str):
+def add_record(data: WriteBorrowRecord):
     new_id = f"rc_{str(len(records) + 1).zfill(4)}"
-    record = ReadRecord(id=new_id, user_id=user_id, book_id=book_id, borrowed_at=dt_date.today())
+    record = ReadBorrowRecord(
+        id=new_id, 
+        user_id= data.user_id, 
+        book_id= data.book_id, 
+        borrowed_at= data.borrowed_at)
     records[new_id] = record
     return record
 
 class RecordCrud:
     @staticmethod
-    def create_record(user_id: str, book_id: str):
-        record = add_record(user_id, book_id)
+    def create_record(data: WriteBorrowRecord):
+        record = add_record(data)
         return record
 
     @staticmethod
@@ -26,7 +30,7 @@ class RecordCrud:
         return list(records.values())
 
     @staticmethod
-    def update_record(record_id: str, update_data: UpdateRecord):
+    def update_record(record_id: str, update_data: UpdateBorrowRecord):
         record = records.get(record_id)
         if not record:
             raise HTTPException(status_code=404, detail="Record not found")
