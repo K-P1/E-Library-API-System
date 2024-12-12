@@ -8,9 +8,6 @@ class WriteBook(BaseModel):
 
 class ReadBook(WriteBook):
     id: str
-    class ConfigDict:
-        from_attributes: True
-        exclude_unset: True
 
 class UpdateBook(BaseModel):
     title: Optional[str] = None

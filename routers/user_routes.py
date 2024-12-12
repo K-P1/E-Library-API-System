@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from crud.user_crud import user_crud
-from schemas.user_schemas import UpdateUser, WriteUser
+from schemas.user_schemas import UpdateUser, FullUpdateUser, WriteUser
 
 users_router = APIRouter()
 
@@ -21,7 +21,7 @@ async def partial_update_user_endpoint(user_id: str, user_data: UpdateUser):
     return user_crud.update_user(user_id, user_data)
 
 @users_router.put("/update/full/{user_id}", status_code=200)
-async def full_update_user_endpoint(user_id: str, user_data: WriteUser):
+async def full_update_user_endpoint(user_id: str, user_data: FullUpdateUser):
     return user_crud.update_user(user_id, user_data)
 
 @users_router.patch("/deactivate/{user_id}", status_code=200)

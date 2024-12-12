@@ -8,13 +8,15 @@ class WriteUser(BaseModel):
 
 class ReadUser(WriteUser):
     id: str
-    class ConfigDict:
-        from_attributes: True
-        exclude_unset: True
 
 class UpdateUser(BaseModel):
     name: Optional[str] = None
     email: Optional[str] = None
-    is_active: Optional[bool] = True
+    is_active: Optional[bool] = None
+
+class FullUpdateUser(BaseModel):
+    name: str
+    email: str
+    is_active: bool
 
 users: dict[str, ReadUser] = {}
