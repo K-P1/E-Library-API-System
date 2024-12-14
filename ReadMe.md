@@ -228,11 +228,11 @@ A successful test run will display output similar to:
 
 ```plaintext
 ========================= test session starts ==========================
-collected 30 items
+collected 20 items
 
  test_main.py .............................................. [100%]
 
-========================= 30 passed in 2.34s ===========================
+========================= 20 passed in 2.34s ===========================
 ```
 
 This ensures that all endpoints are functioning as expected and that the application is ready for production or further development.
